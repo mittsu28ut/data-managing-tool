@@ -1,0 +1,22 @@
+<%= form_with(model: task, local: true) do |form| %>
+
+  <div class ="field" >
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :task_name %>
+  </div>
+  <div class="field">
+    <%= form.label :detail %>
+    <%= form.text_area :detail, id: :task_detail %>
+  </div>
+  <div class="field">
+    <%= form.label :due %>
+    <%= form.text_field :due, id: :task_due %>
+  </div>
+  <div class="field">
+    <%= form.label :priority %>
+    <%= form.text_field :priority, id: :task_priority %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
