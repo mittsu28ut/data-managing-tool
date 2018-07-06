@@ -1,0 +1,32 @@
+
+
+ja:
+  tasks:
+    update:
+      success: "タスクが正常に更新されました"
+    create:
+      success: "タスクが正常に作成されました"
+    destroy:
+      success: "タスクが正常に削除されました"
+    index:
+      show: "閲覧"
+      edit: "更新"
+      destroy: "削除"
+      confirm: "本当に削除しますか？"
+      newtask: "新規作成"
+      name: "タスク名"
+      detail: "詳細"
+      priority: "優先度"
+      due: "期限"
+      status: "ステータス"
+    show:
+      edit: "更新"
+      back: "戻る"
+      name: "タスク名"
+      detail: "詳細"
+      priority: "優先度"
+      due: "期限"
+      status: "ステータス"
+    edit:
+      show: "閲覧"
+      back: "戻る"
