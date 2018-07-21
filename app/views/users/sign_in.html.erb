@@ -1,0 +1,13 @@
+<h1>Sign In</h1>
+<%= form_for @user, :as => :user, :url => sign_in_path(@user) do |f| %>
+<p>
+  <%= f.label :name,"Username" %><br/>
+  <%= f.text_field :name , placeholder: "username" %>
+</p>
+<p>
+  <%= f.label :password %><br/>
+  <%= f.password_field :password, placeholder: "password" %>
+</p>
+
+<%= f.submit "Sign In"%>
+<% end %>

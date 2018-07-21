@@ -1,14 +1,24 @@
-<p id="notice"><%= notice %></p>
+<div class="container" >
+<p id="notice" ><%= notice %></p>
 <h1>タスク一覧</h1>
 
-<table>
+<div>
+  <%= form_tag(tasks_path, method: "get") do %>
+  <%= label_tag :name, t(".name")%><%= text_field_tag :name, params[:name] %>
+  <%= label_tag :name, t(".status") %><%= select_tag :status, options_for_select(["未着手","着手中","完了"]), include_blank: true %>
+
+  <%= submit_tag "検索" %>
+  <% end %>
+</div>
+
+<table class= "table table-condensed table-striped">
   <thead>
     <tr>
       <th><%= t(".name") %></th>
       <th><%= t(".detail") %></th>
-      <th><%= t(".priority") %></th>
+      <th><%= sortable "Priority", t(".priority") %></th>
       <th><%= t(".status") %></th>
-      <th><%= t(".due") %></th>
+      <th><%= sortable "Due", t(".due") %></th>
       <th colspan= "3"></th>
     </tr>
   </thead>
@@ -17,16 +27,26 @@
       <tr>
         <td><%= task.name %></td>
         <td><%= task.detail %></td>
-        <td><%= task.priority%></td>
-        <td><%= task.status%></td>
-        <td><%= task.due%></td>
+        <td><%= case task.priority
+        when '1'
+          "高"
+        when '2'
+          "中"
+        else
+          "低"
+        end %></td>
+        <td><%= task.status %></td>
+        <td><%= task.due %></td>
         <td><%= link_to t(".show"),task %></td>
         <td><%= link_to t(".edit"),edit_task_path(task) %></td>
         <td><%= link_to t(".destroy"),task,method: :delete, data:{ confirm: t(".confirm") } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+<%= will_paginate @tasks, renderer: BootstrapPagination::Rails %> 
 
 <br>
-<%= link_to t(".newtask"), new_task_path %>
+<%= link_to t(".newtask"), new_task_path, class: 'btn btn-primary' %>
+</div>
