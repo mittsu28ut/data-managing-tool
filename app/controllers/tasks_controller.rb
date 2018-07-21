@@ -2,10 +2,16 @@ class TasksController < ApplicationController
 #before_actionで各メソッドを呼び出す前にメソッドを呼び出す
 #onlyでどのメソッドで呼び出すか制限をかける
 before_action :set_task, only: [:show,:update,:edit,:destroy]
-
+helper_method :sort_column, :sort_direction
 #データ一覧を表示
 def index
-  @tasks = Task.all.order(created_at: :asc)
+  @tasks = Task.order(sort_column + ' ' + sort_direction).paginate(page: params[:page], per_page:8)
+  if params[:name].present?
+    @tasks = @tasks.get_by_name params[:name]
+  end
+  if params[:status].present?
+    @tasks = @tasks.get_by_status params[:status]
+  end
 end
 #データを閲覧する画面を表示
 def show
@@ -52,11 +58,23 @@ def destroy
   end
 end
 
+def sort
+
+end
+
 private
   def set_task
     @task = Task.find(params[:id])
   end
   def task_params
     params.require(:task).permit(:name, :detail, :due, :priority, :status)
+  end
+  def sort_column
+    #Task.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+    params[:sort] || "created_at"
+  end
+  def sort_direction
+    #%w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    params[:direction] || "asc"
   end
 end
