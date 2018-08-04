@@ -5,7 +5,8 @@ before_action :set_task, only: [:show,:update,:edit,:destroy]
 helper_method :sort_column, :sort_direction
 #データ一覧を表示
 def index
-  @tasks = Task.order(sort_column + ' ' + sort_direction).paginate(page: params[:page], per_page:8)
+  @task = Task.new
+  @tasks = current_user.tasks.order(sort_column + ' ' + sort_direction).paginate(page: params[:page], per_page:8)
   if params[:name].present?
     @tasks = @tasks.get_by_name params[:name]
   end
@@ -27,6 +28,7 @@ end
 #データを作成するためのアクション
 def create
   @task = Task.new(task_params)
+  @task.user = current_user
   respond_to do |format|
     if @task.save
       format.html {redirect_to @task, notice: t(".success")}

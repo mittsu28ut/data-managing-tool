@@ -38,8 +38,6 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'mysql2'
 
-gem 'kaminari', '~> 0.17.0'
-
 gem 'will_paginate'
 
 gem 'will_paginate-bootstrap'
@@ -51,6 +49,10 @@ gem 'jquery-rails'
 gem 'bcrypt'
 
 gem 'bcrypt-ruby'
+
+gem 'administrate'
+
+gem 'rolify'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

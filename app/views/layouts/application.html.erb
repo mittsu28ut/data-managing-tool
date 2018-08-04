@@ -15,7 +15,7 @@
         <% if current_user %>
           Logged in as <%= current_user.name %>
           <%= link_to "Sign Out", signed_out_path %>
-          <%= link_to "Account Settings", account_settings_path %>
+          <%= link_to "Account Settings", edit_path(current_user) %>
         <% else %>
           <%= link_to "Sign up", new_user_path %> or
           <%= link_to "Sign In", sign_in_path %>

@@ -9,7 +9,7 @@ def login
   if @user && @user.authenticate(params[:user][:password])
     session[:user_id] = @user.id
     flash[:notice] = "Welcome."
-    redirect_to :root
+    redirect_to controller: 'tasks', action: 'index'
   else
     flash.now[:error] = 'Unknown user. Please check your username and password.'
     render :action => "sign_in"
@@ -25,41 +25,31 @@ def register
   if @user.save
     session[:user_id] = @user.id
     flash[:notice] = 'Welcome.'
-    redirect_to :root
+    redirect_to @user
   else
     render :action => "new_user"
   end
 end
 
-def account_settings
-  @user = current_user
+def show
+  @user = User.find(params[:id])
 end
 
-def set_account_info
-  old_user = current_user
-  #verify the current password by creating a new user record.
-  @user = User.find_by_name old_user.name
-  if @user && @user.authenticate(params[:password])
-    #update the user with any new username and email
-    @user.update(params[:user])
-    #Set the old email and username, which is validated only if it has changed.
-    @user.previous_email = old_user.email
-    @user.previous_name = old_user.name
-    if @user.valid?
-      #if there is a new_password value, then we need to update the password/
-      @user.password = @user.new_password unless @user.new_password.nil? || @user.new_password.empty?
-      @user.save
-      flash[:notice] = "Account settings have been changed."
-      redirect_to :root
+def edit
+  @user = User.new
+end
+
+def update
+  respond_to do |format|
+    if @user.update(user_params)
+      redirect_to @user, notice: t(".success")
+      render :show, status: :ok, location: @user
     else
-      render :action => "account_settings"
+      render :edit
     end
-  else
-    @user = current_user
-    @user.errors[:password] = "Password is incorrect."
-    render :action => "account_settings"
   end
 end
+
 
 def signed_out
   session[:user_id] = nil
